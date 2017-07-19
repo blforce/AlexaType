@@ -1,0 +1,24 @@
+{
+  "name": "alexatype",
+  "version": "1.0.0",
+  "description": "A helper package for writing alexa skills in typescript.",
+  "main": "index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/blforce/AlexaType.git"
+  },
+  "keywords": [
+    "alexa",
+    "typescript",
+    "nodejs"
+  ],
+  "author": "Ben Force <ben@justwriteapps.com> (https://justwriteapps.com)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/blforce/AlexaType/issues"
+  },
+  "homepage": "https://github.com/blforce/AlexaType#readme"
+}
