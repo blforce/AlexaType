@@ -13,8 +13,8 @@ gulp.task('default', function() {
         .js.pipe(gulp.dest(destination));
 });
 
-gulp.task('tests', function() {
+gulp.task('tests', ['default'], function() {
     return gulp.src('tests/**/*.ts')
         .pipe(tsProject())
         .js.pipe(gulp.dest(destination));
-})
+});

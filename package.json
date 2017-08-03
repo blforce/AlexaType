@@ -4,7 +4,7 @@
   "description": "A helper package for writing alexa skills in typescript.",
   "main": "index.ts",
   "scripts": {
-    "test": "ts-node ./tests/test-handler.ts"
+    "test": "gulp tests && bst proxy lambda build/test-handler.js"
   },
   "repository": {
     "type": "git",
