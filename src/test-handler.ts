@@ -16,5 +16,6 @@ class defaultHandler extends StateHandler {
 }
 
 app.setDefaultHandler(defaultHandler);
+app.addState(defaultHandler);
 
 export const handler = (event, context, callback) => app.handler(event, context, callback);

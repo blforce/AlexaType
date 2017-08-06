@@ -10,16 +10,34 @@ export interface AlexaAppOptions {
     resources: any;
 }
 
-const DEFAULT_STATE = '__DEFAULT__';
-
 export default class AlexaApp {
 
     protected stateHandlers: {[key:string]: {new (app: AlexaApp): StateHandler}} = {};
 
-    protected state: string = DEFAULT_STATE;
+    private defaultState: string;
+
+    protected get state(): string {
+        if('state' in this.appAttributes) {
+            return this.appAttributes.state;
+        }
+
+        return this.defaultState;
+    }
+
+    public setState(state: {new (app: AlexaApp): StateHandler}) {
+        this.appAttributes.state = state.toString();
+    }
+
+    protected get appAttributes(): {[key:string]:any} {
+        if(!('app_attributes' in this.attributes))
+            this.attributes.app_attributes = {};
+
+        return this.attributes.app_attributes;
+    }
 
     public event: StandardRequests.Request<StandardRequests.StandardRequest>;
     protected callback: any;
+    public attributes: {[key:string]:any};
 
     public constructor(
         public launchHandler?: (app: AlexaApp) => Promise<Response>, 
@@ -30,10 +48,7 @@ export default class AlexaApp {
         context: any, callback: any): Promise<void> {
 
         this.event = event;
-        
-        if('state' in event.session.attributes) {
-            this.state = event.session.attributes.state;
-        }
+        this.attributes = event.session.attributes || {};
 
         var response: Response;
 
@@ -58,15 +73,17 @@ export default class AlexaApp {
             console.trace();
         }
         
+        response.sessionAttributes = this.attributes;
         callback(null, response);
     }
 
     public setDefaultHandler(handler: {new (app: AlexaApp): StateHandler}): void {
-        return this.addState(DEFAULT_STATE, handler);
+        this.defaultState = handler.toString();
+        this.addState(handler);
     }
 
-    public addState(name: string, handler: {new (app: AlexaApp): StateHandler} ): void {
-        this.stateHandlers[name] = handler;
+    public addState(handler: {new (app: AlexaApp): StateHandler} ): void {
+        this.stateHandlers[handler.toString()] = handler;
     }
 
     async handleIntent(): Promise<Response> {

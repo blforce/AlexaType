@@ -59,13 +59,14 @@ interface ResponseBody {
 
 export interface IResponse {
     version: string;
-    sessionAttributes?: Record<string, any>;
+    sessionAttributes?: {[key:string]:any};
     response: ResponseBody;
 }
 
 
 export default class Response implements IResponse {
     version = "1.0";
+    sessionAttributes?: {[key:string]:any};
     response = {} as ResponseBody;
 
     constructor(endSession: boolean) {
