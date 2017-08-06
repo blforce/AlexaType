@@ -1,10 +1,10 @@
 {
   "name": "alexatype",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A helper package for writing alexa skills in typescript.",
   "main": "index.ts",
   "scripts": {
-    "test": "gulp tests && bst proxy lambda build/test-handler.js"
+    "test": "gulp && bst proxy lambda build/test-handler.js"
   },
   "repository": {
     "type": "git",
