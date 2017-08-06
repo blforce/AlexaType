@@ -52,7 +52,7 @@ export interface Request<T extends StandardRequest> {
 }
 
 export interface StandardRequest {
-    type: string;
+    type: RequestTypes;
     requestId: string;
     timestamp: string;
     locale: string;
@@ -60,8 +60,9 @@ export interface StandardRequest {
 
 export interface LaunchRequest extends StandardRequest { }
 
-export type SessionEndedErrorTypes = "INVALID_RESPONSE" | "DEVICE_COMMUNICATION_ERROR" | "INTERNAL_ERROR";
-export type SessionEndedReasons = "USER_INITIATED" | "ERROR" | "EXCEEDED_MAX_REPROMPTS";
+export enum RequestTypes { LaunchRequest = "LaunchRequest", IntentRequest = "IntentRequest", SessionEndedRequest = "SessionEndedRequest" };
+export enum SessionEndedErrorTypes { InvalidResponse = "INVALID_RESPONSE", DeviceCommunicationError = "DEVICE_COMMUNICATION_ERROR", InternalError = "INTERNAL_ERROR" };
+export enum SessionEndedReasons { UserInitiated = "USER_INITIATED", Error = "ERROR", ExceededMaxReprompts = "EXCEEDED_MAX_REPROMPTS" };
 
 export interface SessionEndedRequest extends StandardRequest {
     reason: string;
@@ -71,9 +72,11 @@ export interface SessionEndedRequest extends StandardRequest {
     };
 }
 
-export type ConfirmationStatuses = "NONE" | "DENIED" | "CONFIRMED";
-export type DialogStates = "STARTED" | "IN_PROGRESS" | "COMPLETED";
-export type ResolutionStatuses = "ER_SUCCESS_MATCH" | "ER_SUCCESS_NO_MATCH" | "ER_ERROR_TIMEOUT" | "ER_ERROR_EXCEPTION";
+export enum ConfirmationStatuses { None = "NONE", Denied = "DENIED", Confirmed = "CONFIRMED" };
+export enum DialogStates { Started = "STARTED", InProgress = "IN_PROGRESS", Completed = "COMPLETED" };
+export enum ResolutionStatuses { Match = "ER_SUCCESS_MATCH", NoMatch = "ER_SUCCESS_NO_MATCH", ErrorTimeout = "ER_ERROR_TIMEOUT", ErrorException = "ER_ERROR_EXCEPTION" };
+export type PromiseCallback<T> = (value?: T | Thenable<T>) => void;
+export type PromiseError = (error?: any) => void;
 
 interface ResolutionValue {
     value: {
@@ -99,10 +102,10 @@ interface Slot {
     };
 }
 
-interface Intent {
+export interface Intent {
     name: string;
     confirmationStatus: ConfirmationStatuses;
-    slots: Record<string, Slot>;
+    slots: {[key:string]:Slot};
 }
 
 export interface IntentRequest extends StandardRequest {

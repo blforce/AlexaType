@@ -71,4 +71,8 @@ export default class Response implements IResponse {
     constructor(endSession: boolean) {
         this.response.shouldEndSession = endSession;
     }
+
+    public addPlainSpeech(speech: string): void {
+        this.response.outputSpeech = new PlainTextSpeech(speech);
+    }
 }
